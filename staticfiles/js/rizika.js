@@ -1220,33 +1220,34 @@ function renderPodpisTable() {
 
     tbody.innerHTML = "";
 
-    const vedouciJmeno = document.querySelector('[name="vedouci_jmeno"]')?.value || "";
-    // const vedouciCinnost = document.querySelector('[name="vedouci_cinnost"]')?.value || "";
-    // const vedouciKvalifikace = document.querySelector('[name="vedouci_kvalifikace"]')?.value || "";
+    // 👉 vedoucí
+    const vedouciInput = document.querySelector('[name="vedouci_jmeno"]');
 
-    if (vedouciJmeno ) {//|| vedouciCinnost || vedouciKvalifikace
-        createPodpisRow({
-            jmeno: vedouciJmeno,
-            // cinnost: vedouciCinnost,
-            // kvalifikace: vedouciKvalifikace
-        });
+    if (vedouciInput && vedouciInput.value.trim() !== "") {
+        createPodpisRow({ jmeno: vedouciInput.value.trim() });
     }
 
+    // 👉 pracovníci
     const rows = document.querySelectorAll('#pracovniciTable tr');
 
     rows.forEach(row => {
 
-        const jmeno = row.querySelector('.jmeno')?.value || "";
-        // const cinnost = row.querySelector('.cinnost')?.value || "";
-        // const kvalifikace = row.querySelector('.kvalifikace')?.value || "";
+        const input = row.querySelector('.jmeno');
 
-        if (!jmeno) return; //&& !cinnost && !kvalifikace
+        if (!input) return;
 
-        createPodpisRow({ jmeno});//, cinnost, kvalifikace 
+        const jmeno = input.value.trim();
+
+        if (jmeno !== "") {
+            createPodpisRow({ jmeno });
+        }
     });
 }
-
 function createPodpisRow(data) {
+
+    
+
+    if (!data.jmeno || data.jmeno === "undefined") return;
 
     const tbody = document.getElementById('podpisTable');
 
@@ -1254,10 +1255,8 @@ function createPodpisRow(data) {
 
     row.innerHTML = `
         <td>${data.jmeno}</td>
-        // <td>${data.cinnost}</td>
-        // <td>${data.kvalifikace}</td>
         <td class="datum"></td>
-        <td class="podpis" style="cursor:pointer; text-align:center;">Klikni pro podpis</td>
+        <td class="podpis" style="cursor:pointer; text-align:center;">Podepsat</td>
     `;
 
     const podpisCell = row.querySelector('.podpis');
@@ -1268,6 +1267,7 @@ function createPodpisRow(data) {
 
     tbody.appendChild(row);
 }
+
 
 let signatureCanvas = new fabric.Canvas('signatureCanvas', {
     isDrawingMode: true,
