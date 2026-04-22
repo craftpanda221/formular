@@ -1049,6 +1049,8 @@ document.addEventListener("DOMContentLoaded", function () {
     renderPodpisTable();
 
     document.querySelector('[name="vedouci_jmeno"]').addEventListener('input', renderPodpisTable);
+    // document.querySelector('[name="vedouci_cinnost"]').addEventListener('input', renderPodpisTable);
+    // document.querySelector('[name="vedouci_kvalifikace"]').addEventListener('input', renderPodpisTable);
 
     document.getElementById('pracovniciTable').addEventListener('input', renderPodpisTable);
 
@@ -1219,10 +1221,14 @@ function renderPodpisTable() {
     tbody.innerHTML = "";
 
     const vedouciJmeno = document.querySelector('[name="vedouci_jmeno"]')?.value || "";
+    // const vedouciCinnost = document.querySelector('[name="vedouci_cinnost"]')?.value || "";
+    // const vedouciKvalifikace = document.querySelector('[name="vedouci_kvalifikace"]')?.value || "";
 
-    if (vedouciJmeno ) {
+    if (vedouciJmeno ) {//|| vedouciCinnost || vedouciKvalifikace
         createPodpisRow({
-            jmeno: vedouciJmeno
+            jmeno: vedouciJmeno,
+            // cinnost: vedouciCinnost,
+            // kvalifikace: vedouciKvalifikace
         });
     }
 
@@ -1231,10 +1237,12 @@ function renderPodpisTable() {
     rows.forEach(row => {
 
         const jmeno = row.querySelector('.jmeno')?.value || "";
+        // const cinnost = row.querySelector('.cinnost')?.value || "";
+        // const kvalifikace = row.querySelector('.kvalifikace')?.value || "";
 
-        if (!jmeno) return;
+        if (!jmeno) return; //&& !cinnost && !kvalifikace
 
-        createPodpisRow({ jmeno });
+        createPodpisRow({ jmeno});//, cinnost, kvalifikace 
     });
 }
 
@@ -1246,8 +1254,10 @@ function createPodpisRow(data) {
 
     row.innerHTML = `
         <td>${data.jmeno}</td>
+        // <td>${data.cinnost}</td>
+        // <td>${data.kvalifikace}</td>
         <td class="datum"></td>
-        <td class="podpis" style="cursor:pointer; text-align:center;">Podepsat</td>
+        <td class="podpis" style="cursor:pointer; text-align:center;">Klikni pro podpis</td>
     `;
 
     const podpisCell = row.querySelector('.podpis');
