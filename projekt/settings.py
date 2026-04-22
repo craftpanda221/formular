@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 import os
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['tvoje-app.onrender.com']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Application definition
