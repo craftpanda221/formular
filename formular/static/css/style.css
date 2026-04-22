@@ -1,0 +1,378 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', Arial, sans-serif;  
+}
+
+
+body{
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+h1 {
+    color: #000;
+    text-align: center;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: bold;
+    font-size:50px;
+}
+
+input, textarea {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.nadpis_Sekce {
+    color: #F7A600;
+    background-color: rgb(26, 26, 26);
+    text-align: center;
+    font-weight: bold;
+}
+
+.hlTabulka{
+    max-width: 1000px;    
+    margin-left: 30vw;
+}
+.hlTabulka tr td{
+    max-width: 200px;
+}
+
+.popisek {
+    font-weight: bold;
+    font-family: Inter;
+    width: 150px;
+    font-size: small;
+    padding: 2px 5px;
+    text-align: left;
+}
+
+/* ===== EDITOR ===== */
+
+#editorModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+
+    flex-direction: column;
+}
+
+/* ===== MAPA ===== */
+
+#mapModal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:white;
+
+    display:none;
+    z-index:9999;
+    flex-direction: column;
+}
+
+#map{
+    width:100%;
+    height:95%;
+}
+
+#mapFooter{
+    display: flex;
+    width:100%;
+    height:5%;
+}
+#mapFooter button{
+    margin: 0px;
+    width: 100%;
+    z-index: 9999;
+}
+#mapCell{
+    display: flex;
+}
+
+/* ===== RIZIKA ===== */
+
+h3{
+    color: #fff;
+}
+
+.rizikaNadpisDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttonRizika {
+    padding: 5px 3px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    background: #2e7d32; /* zelená */
+    color: white;
+    font-size: small;
+    font-weight: 500;
+    cursor: pointer;
+    
+
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+    background: rgba(0,0,0,0.8);
+    z-index: 9999;
+}
+
+.modal-body {
+    flex: 1;
+    overflow: auto;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    gap: 10px;
+
+    padding: 10px 0;
+}
+
+#modal-footer {
+    height: 40px;
+    width: 100%;
+}
+
+.riziko-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    justify-content: space-between;
+
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    flex-direction: row;
+
+    cursor: pointer;
+}
+
+.checkbox{
+    width: 20px;
+
+}
+
+.riziko-item:hover {
+    background: #f5f5f5;
+    color: #000;
+}
+
+.rizikaList{
+    width:400px;
+    }
+
+.opatreni-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+
+    flex-direction: column;
+
+    cursor: pointer;
+}   
+
+.opatreni-item{
+    width: 300px;
+}
+
+/* canvas kontejner */
+#canvas {
+    flex: 1;
+    width: 100%;
+    display: block;
+    min-height: 0;
+}
+
+.canvas-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* --- toolbar --- */
+
+#toolbar {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    background-color: #333;
+    padding-left: 20px;
+    padding-right: 20px;
+    
+}
+
+.toolbarPolozka{
+    gap: 5px;
+    row-gap: 10px;
+    display: flexbox;
+    justify-content: center;
+    align-content: center;
+}
+.toolbarPolozka img{
+    cursor: pointer;
+}
+
+/* --- Icon panel --- */
+#iconPanel {
+    display: none;
+    background: #999;
+    padding: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    border-top: 1px solid #ccc;
+    justify-content: center;
+    align-items: center;
+}
+
+#iconPanel img {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 4px;
+    background: transparent
+}
+
+#iconPanel img:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+#editorModal > * {
+    max-width: 100%;
+}
+
+/* --- Color panel --- */
+
+#colorPanel {
+    display: none;
+    background: #999;
+    padding: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+
+    justify-content: center;
+}
+
+.color {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.color:hover {
+    transform: scale(1.1);
+    border: 2px solid #333;
+}
+
+/* --- Brush panel --- */
+
+#brushPanel {
+    display: none;
+    background: #999;
+    padding: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+
+    justify-content: center;
+}
+
+.brush {
+    padding: 10px 15px;
+    background: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.brush:hover {
+    background: #ddd;
+}
+
+/* --- button --- */
+
+button {
+    padding: 10px 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 8px;
+    background: #2e7d32; /* zelená */
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* hover */
+button:hover {
+    background: #1b5e20;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* kliknutí */
+button:active {
+    transform: scale(0.98);
+}
+
+/* disabled */
+button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+.file-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #b37700;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    width: 140px;
+    text-align: center;
+
+    transition: all 0.2s ease;
+}
+
+.file-btn:hover {
+    background: #815600;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.file-btn:active {
+    transform: scale(0.98);
+}

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<title>Formulář pro plánování prací ve výškách</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+</head>
+
+<body>
+<h1>Formulář pro plánování prací ve výškách</h1>
+
+{% comment %}                                                                                                   ====================== FORMULÁŘ ======================== {% endcomment %}
+
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    
+    <table class="hlTabulka" border="1">
+        <tr>
+            <td class="nadpis_Sekce" colspan="2">Zhotovitel práce</td>
+            <td class="nadpis_Sekce" colspan="2">Zadavatel práce</td>
+        </tr>        
+        <tr>
+            <td class="popisek">Zhotovitel:</td>
+            <td>{{ form.zhotovitel }}</td>
+            <td class="popisek">Zadavatel:</td>
+            <td>{{ form.zadavatel }}</td>
+        </tr>
+        <tr>
+            <td class="popisek">Kontakt:</td>
+            <td>{{ form.kontakt }}</td>
+            <td class="popisek">Telefon:</td>
+            <td>{{ form.telefonZadavatel }}</td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">3. Majitel pozemku/stromu:</td>
+        </tr>
+        <tr>
+            <td class="popisek">Jméno a příjmení:</td>
+            <td>{{ form.jmenoPrijmeni }}</td>
+            <td class="popisek">Telefon:</td>
+            <td>{{ form.telefonMajitel }}</td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">4. Členové pracovní skupiny</td>
+        </tr>
+        <tr>
+            <td class="popisek">Vedoucí pracovník:</td>
+            <td class="popisek">Jméno a příjmení:</td>
+            <td class="popisek">Činnost:</td>
+            <td class="popisek">Kvalifikace:</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{ form.vedouci_jmeno }}</td>
+            <td>{{ form.vedouci_cinnost }}</td>
+            <td>{{ form.vedouci_kvalifikace }}</td>
+        </tr>
+        <tr>
+            <td class="popisek">Ostatní pracovníci/osoby:</td>
+            <td class="popisek">Jméno a příjmení:</td>
+            <td class="popisek">Činnost:</td>
+            <td class="popisek">Kvalifikace:</td>
+        </tr>
+
+        <tbody id="pracovniciTable"></tbody>    
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">5. Specifika práce a pracoviště</td>
+        </tr>
+        <tr>
+            <td class="popisek">Datum</td>
+            <td>{{ form.datum }}</td>
+            <td class="popisek">Místo práce</td>
+            <td>{{ form.misto_prace }}</td>
+        </tr>
+        <tr>
+            <td class="popisek">Pracovní doba:</td>
+            <td>{{ form.pracovni_doba }}</td>
+            <td class="popisek">Souřadnice:</td>
+            <td>
+                <div id="mapCell">
+                    <input type="text" name="souradnice" id="souradniceInput"
+                        value="{{ form.souradnice.value|default:'' }}"
+                        placeholder="50.123456, 15.123456">
+    
+                    <img src="/static/icons/map.svg" onclick="openMap()">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="popisek">Max. výška:</td>
+            <td>{{ form.max_vyska }}</td>
+            <td class="popisek">Zařízení:</td>
+            <td>{{ form.zarizeni }}</td>
+        </tr>
+        <tr>
+            <td class="popisek">Pracovní úkon:</td>
+            <td>{{ form.pracovni_ukon }}</td>
+            <td class="popisek">Strom:</td>
+            <td>{{ form.strom }}</td>
+        </tr>
+        <tr>
+            <td class="popisek">Specifika pracoviště:<br>
+            (silnice, oplocení,<br>
+            uzamčení, objekt ...)</td>
+            <td colspan="3">{{ form.specifika_pracoviste }}</td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">6. Plán práce</td>
+        </tr>
+        <tr>
+            <td class="popisek" colspan="2">Postup práce:</td>
+            <td class="popisek" colspan="2">Znázornění situace:</td>
+        </tr>       
+        <tr>
+            <td colspan="2">{{ form.postup_prace }}</td>
+            <td colspan="2" onclick="openEditor()" id="fotoCell" style="cursor:pointer; text-align:center;">Klikni pro vložení obrázku</td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">7. Jednoduché posouzení rizik</td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><div class="rizikaNadpisDiv"><label class="popisek">Riziko</label><button class="buttonRizika" type="button" onclick="openRizika()">Vybrat rizika</button></div></td>
+            <td colspan="2"><div class="rizikaNadpisDiv"><label class="popisek">Přijaté opatření</label><button class="buttonRizika" type="button" onclick="openOpatreni()">Vybrat Opatření</button></div></td>
+        </tr>
+        <tbody id="rizikaTable"></tbody>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">11. Ověření a podpis</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th class="popisek">Jméno a příjmení</th>
+                            <th class="popisek">Činnost</th>
+                            <th class="popisek">Kvalifikace</th>
+                            <th class="popisek">Datum</th>
+                            <th class="popisek">Podpis</th>
+                        </tr>
+                    </thead>
+                    <tbody id="podpisTable"></tbody>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+
+    <input type="hidden" name="pracovnici_data" id="pracovniciData">
+    <input type="hidden" name="obrazek_data" id="obrazekData" value="{{ obrazek_data|default:'' }}">
+    <button type="button" onclick="exportForm()">Export</button>
+    <button type="button" onclick="document.getElementById('importFile').click()">Import</button>
+    <input type="file" id="importFile" accept=".json" hidden>
+
+    
+</form>
+
+{% comment %}                                                                                                =================== RIZIKA, OPATRENI DIVY ================== {% endcomment %}
+
+<div id="rizikaModal" style=" display: none;" class="modal">
+
+        <h3>Vyber rizika</h3>
+
+        <div id="rizikaList" class="modal-body"></div>
+        
+        <button id="modal-footer" onclick="saveRizika()">Uložit</button>
+</div>
+
+<div id="opatreniModal" style=" display: none;" class="modal">
+
+        <h3>Vyber opatření</h3>
+
+        <div id="opatreniList" class="modal-body"></div>
+
+        <button id="modal-footer" onclick="saveOpatreni()">Uložit</button>
+
+    </div>
+</div>
+
+{% comment %}                                                                                                ==================== EDITOR DIV ======================= {% endcomment %}
+
+<div id="editorModal">
+
+    <input type="file" id="upload" accept="image/*" capture="environment" hidden>
+    
+    <canvas id="canvas"></canvas>
+    
+    <div id="iconPanel">
+        <p class="nadpisIconMiniBox">Ikony:</p>
+        <img src="/static/icons/kotevniBod.svg" onclick="addKotevniBod()">
+        <img src="/static/icons/arrow.svg" onclick="addArrow()">
+        <button onclick="addText()">Text</button>
+    </div>
+    <div id="colorPanel">
+        <div class="color" style="background:black" onclick="setColor('black')"></div>
+        <div class="color" style="background:red" onclick="setColor('red')"></div>
+        <div class="color" style="background:blue" onclick="setColor('blue')"></div>
+        <div class="color" style="background:green" onclick="setColor('green')"></div>
+        <div class="color" style="background:yellow" onclick="setColor('yellow')"></div>
+        <div class="color" style="background:orange" onclick="setColor('orange')"></div>
+        <div class="color" style="background:purple" onclick="setColor('purple')"></div>
+        <div class="color" style="background:brown" onclick="setColor('brown')"></div>
+        <div class="color" style="background:gray" onclick="setColor('gray')"></div>
+        <div class="color" style="background:white; border:1px solid black" onclick="setColor('white')"></div>
+    </div>
+    <div id="brushPanel">
+        <div class="brush" onclick="setBrushSize(2)">Tenká</div>
+        <div class="brush" onclick="setBrushSize(5)">Střední</div>
+        <div class="brush" onclick="setBrushSize(10)">Silná</div>
+        <div class="brush" onclick="setBrushSize(20)">Extra</div>
+    </div>
+    <div id="toolbar">
+        <div class="toolbarPolozka">
+            <label for="upload" class="file-btn">Vybrat obrázek</label>
+            <button onclick="toggleIcons()">Vložit prvky</button>
+        </div>
+        <div class="toolbarPolozka">
+            <img src="/static/icons/draw.svg" onclick="enableDraw()">
+            <img src="/static/icons/drawOff.svg" onclick="cursorMode()">
+            <img src="/static/icons/palette.svg" onclick="toggleColors()">
+            <img src="/static/icons/brushSize.svg" onclick="toggleBrushSize()">
+        </div>
+        <div class="toolbarPolozka">
+            <img src="/static/icons/delete.svg" onclick="clearCanvas()">
+            <img src="/static/icons/undo.svg" onclick="undo()">
+            <img src="/static/icons/redo.svg" onclick="redo()">
+            <img src="/static/icons/save.svg" onclick="saveAndClose()">
+        </div>
+    </div>
+</div>
+
+
+{% comment %}                                                                                                ==================== MAPA DIV ======================== {% endcomment %}
+<div id="mapModal">
+    <div id="map"></div>
+    <div id="mapFooter">
+        <button onclick="closeMap()">Zavřít</button>
+    </div>
+</div>
+
+{% comment %}                                                                                               ===================== PODPISY DIV ===================== {% endcomment %}
+
+<div id="signatureModal" class="modal">
+    
+
+        <h3>Podpis</h3>
+
+        <div style="width:400px; height:200px; background-color:white;"><canvas id="signatureCanvas" width="400" height="200" style="border:1px solid #000;"></canvas></div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:10px;">
+            <button onclick="clearSignature()">Vymazat</button>
+            <button onclick="saveSignature()">Uložit</button>
+        </div>
+
+    
+</div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    const CSRF_TOKEN = "{{ csrf_token }}";
+    const EXISTING_DATA = {{ pracovnici_json|default:"[]"|safe }};
+</script>
+<script src="{% static 'js/rizika.js' %}"></script>
+</html>
