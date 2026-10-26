@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formulář pro plánování prací ve výškách</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/x-icon" href="icons/favicon.png">
+<!-- Leaflet (mapa) se natahuje líně až při prvním otevření mapy, viz js/core.js -->
+<!-- Fabric.js (editor obrázku / podpisy) se natahuje líně stejným způsobem -->
+
+</head>
+
+<body>
+
+<header class="hero">
+    <h1>Formulář pro plánování prací ve výškách</h1>
+    <p class="podtitulek">Obsah formuláře je v souladu s ustanovením v §&nbsp;102 a ustanovení o koordinaci v §&nbsp;103 zákona č.&nbsp;262/2006 Sb.</p>
+</header>
+
+<!-- ====================== FORMULÁŘ ======================== -->
+
+<form autocomplete="off" onsubmit="return false;">
+
+    <table class="hlTabulka" border="1">
+        <colgroup>
+            <col style="width:18%">
+            <col style="width:32%">
+            <col style="width:18%">
+            <col style="width:32%">
+        </colgroup>
+        <tr>
+            <td class="nadpis_Sekce" colspan="2">Zhotovitel práce</td>
+            <td class="nadpis_Sekce" colspan="2">Zadavatel práce</td>
+        </tr>
+        <tr>
+            <td class="popisek">Zhotovitel:</td>
+            <td><input type="text" name="zhotovitel" id="id_zhotovitel"></td>
+            <td class="popisek">Zadavatel:</td>
+            <td><input type="text" name="zadavatel" id="id_zadavatel"></td>
+        </tr>
+        <tr>
+            <td class="popisek">Kontakt:</td>
+            <td><input type="text" name="kontakt" id="id_kontakt"></td>
+            <td class="popisek">Telefon:</td>
+            <td><input type="text" name="telefonZadavatel" id="id_telefonZadavatel"></td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">3. Majitel pozemku/stromu:</td>
+        </tr>
+        <tr>
+            <td class="popisek">Jméno a příjmení:</td>
+            <td><input type="text" name="jmenoPrijmeni" id="id_jmenoPrijmeni"></td>
+            <td class="popisek">Telefon:</td>
+            <td><input type="text" name="telefonMajitel" id="id_telefonMajitel"></td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">4. Členové pracovní skupiny</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="vnorenaBunka">
+                <div class="clenoveScroll">
+                <table class="clenoveTabulka" border="1">
+                    <colgroup>
+                        <col style="width:14%">
+                        <col style="width:20%">
+                        <col style="width:20%">
+                        <col style="width:22%">
+                        <col style="width:24%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td class="popisek">Jméno a příjmení:</td>
+                            <td class="popisek">Činnost:</td>
+                            <td class="popisek">Kvalifikace:</td>
+                            <td class="popisek">OOPP:</td>
+                        </tr>
+                        <tr>
+                            <td class="popisek">Vedoucí pracovník:</td>
+                            <td><input type="text" name="vedouci_jmeno" id="id_vedouci_jmeno"></td>
+                            <td><input type="text" name="vedouci_cinnost" id="id_vedouci_cinnost"></td>
+                            <td><input type="text" name="vedouci_kvalifikace" id="id_vedouci_kvalifikace"></td>
+                            <td class="ooppCell" id="vedouciOopp"></td>
+                        </tr>
+                        <tr>
+                            <td class="popisek">Pracovník pověřený koordinací mezi subjekty:</td>
+                            <td><input type="text" name="koordinator_jmeno" id="id_koordinator_jmeno"></td>
+                            <td><input type="text" name="koordinator_cinnost" id="id_koordinator_cinnost"></td>
+                            <td><input type="text" name="koordinator_kvalifikace" id="id_koordinator_kvalifikace"></td>
+                            <td class="ooppCell" id="koordinatorOopp"></td>
+                        </tr>
+                    </tbody>
+                    <tbody id="pracovniciTable"></tbody>
+                </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">5. Specifika práce a pracoviště</td>
+        </tr>
+        <tr>
+            <td class="popisek">Datum</td>
+            <td><input type="date" name="datum" id="id_datum"></td>
+            <td class="popisek">Místo práce</td>
+            <td><input type="text" name="misto_prace" id="id_misto_prace"></td>
+        </tr>
+        <tr>
+            <td class="popisek">Pracovní doba:</td>
+            <td><input type="text" name="pracovni_doba" id="id_pracovni_doba"></td>
+            <td class="popisek">Souřadnice:</td>
+            <td>
+                <div id="mapCell">
+                    <input type="text" name="souradnice" id="souradniceInput"
+                        value="" placeholder="50.123456, 15.123456">
+
+                    <img src="icons/map.svg" onclick="openMap()">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="popisek">Max. výška:</td>
+            <td><input type="text" name="max_vyska" id="id_max_vyska"></td>
+            <td class="popisek">Zařízení:</td>
+            <td><input type="text" name="zarizeni" id="id_zarizeni"></td>
+        </tr>
+        <tr>
+            <td class="popisek">Práce / činnost:</td>
+            <td><textarea name="pracovni_ukon" id="id_pracovni_ukon" rows="1"></textarea></td>
+            <td class="popisek">Strom:</td>
+            <td><input type="text" name="strom" id="id_strom"></td>
+        </tr>
+        <tr>
+            <td class="popisek">Specifika pracoviště:</td>
+            <td><textarea name="specifika_pracoviste" id="id_specifika_pracoviste" rows="3" placeholder="silnice, oplocení, uzamčení, objekt&nbsp;..."></textarea></td>
+            <td class="popisek">Komunikace mezi pracovníky:</td>
+            <td colspan="3">
+                <div class="komunikaceFlex">
+                    <label class="komunikaceItem"><input type="checkbox" name="komunikace_slovne"> slovně</label>
+                    <label class="komunikaceItem"><input type="checkbox" name="komunikace_telefon"> telefon</label>
+                    <label class="komunikaceItem"><input type="checkbox" name="komunikace_komunikator"> komunikátor</label>
+                    <label class="komunikaceItem"><input type="checkbox" name="komunikace_vysilacka"> vysílačka</label>
+                    <label class="komunikaceItem"><input type="checkbox" name="komunikace_jine_signaly"> jiné signály</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">6. Plán práce</td>
+        </tr>
+        <tr>
+            <td class="popisek" colspan="2">Postup prací v krocích:</td>
+            <td class="popisek" colspan="2">Znázornění situace:</td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea name="postup_prace" id="id_postup_prace" rows="10" placeholder="Kdo? Kde? Jak? Kdy? Technologie? Vybavení?&#10;1.&#10;2."></textarea></td>
+            <td colspan="2" onclick="openEditor()" id="fotoCell" style="cursor:pointer; text-align:center;">Klikni pro vložení obrázku</td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">7. Jednoduché posouzení rizik</td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><div class="rizikaNadpisDiv"><label class="popisek">Riziko</label><button class="buttonRizika" type="button" onclick="openRizika()">Vybrat rizika</button></div></td>
+            <td colspan="2"><div class="rizikaNadpisDiv"><label class="popisek">Přijaté opatření</label><button class="buttonRizika" type="button" onclick="openOpatreni()">Vybrat Opatření</button></div></td>
+        </tr>
+        <tbody id="rizikaTable"></tbody>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">8. Záchraný plán - postup při nehodě</td>
+        </tr>
+        <tr>
+            <td id="lokalizace" colspan="4"><strong>Kde jsme:</strong> <span id="traumaKdeJsme"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4" id="tdTextarea"><textarea name="traumatologicky_plan" id="id_traumatologicky_plan" rows="25"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div id="vybaveniFlex">
+                <div class="vybaveniItem"><label class="popisekPrvniPomoc">Je na pracovišti nabitý telefon?</label><input type="checkbox" name="vybaveni_telefon"></div>
+                <div class="vybaveniItem"><label class="popisekPrvniPomoc">Je na pracovišti lékárnička?</label><input type="checkbox" name="vybaveni_lekarnicka"></div>
+                <div class="vybaveniItem"><label class="popisekPrvniPomoc">Je na pracovišti druhý lezec který má vhodné OOPP, ovládá první pomoc a evakuaci?</label><input type="checkbox" name="vybaveni_druhy_lezec"></div>
+                <div class="vybaveniItem"><label class="popisekPrvniPomoc">Je na pracovišti evakuační sada?</label><input type="checkbox" name="vybaveni_evakuacni_sada"></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="nadpis_Sekce" colspan="4">9. Ověření a podpis</td>
+        </tr>
+        <tr>
+            <td colspan="4" id="podpisPopis">Svým podpisem stvrzuji, že jsem byl seznámen s jednotlivými body tohoto plánu a porozuměl jsem všem pokynům.</td>
+        </tr>
+        <tr>
+            <td class="popisek">Jméno a příjmení</td>
+            <td class="popisek">OOPP</td>
+            <td class="popisek">Datum</td>
+            <td class="popisek">Podpis</td>
+        </tr>
+        <tbody id="podpisTable"></tbody>
+        
+    </table>
+
+    <input type="hidden" name="pracovnici_data" id="pracovniciData">
+    <input type="hidden" name="obrazek_data" id="obrazekData" value="">
+    <input type="file" id="importFile" accept=".json" hidden>
+    
+</form>
+
+
+<div id="imExButtons">
+    <button type="button" onclick="exportForm()">Export</button>
+    <button type="button" onclick="document.getElementById('importFile').click()">Import</button>
+</div>
+
+<!-- =================== RIZIKA, OPATRENI DIVY ================== -->
+
+<div id="rizikaModal" style="display: none;" class="modal">
+        <h3 class="opatreniTitle">Vyber rizika</h3>
+        <div id="rizikaList" class="modal-body"></div>
+        <button id="modal-footer" onclick="saveRizika()">Uložit</button>
+</div>
+
+<div id="opatreniModal" style="display: none;" class="modal">
+        <h3 class="opatreniTitle">Vyber opatření</h3>
+        <div id="opatreniList" class="modal-body"></div>
+        <button id="modal-footer" onclick="saveOpatreni()">Uložit</button>
+</div>
+
+<!-- ==================== EDITOR DIV ======================= -->
+
+<div id="editorModal">
+    <input type="file" id="upload" accept="image/*" capture="environment" hidden>
+    <canvas id="canvas"></canvas>
+
+    <div id="iconPanel">
+        <p class="nadpisIconMiniBox">Ikony:</p>
+        <img src="icons/kotevniBod.svg" onclick="addKotevniBod()">
+        <img src="icons/arrow.svg" onclick="addArrow()">
+        <button onclick="addText()">Text</button>
+    </div>
+    <div id="colorPanel">
+        <div class="color" style="background:black" onclick="setColor('black')"></div>
+        <div class="color" style="background:red" onclick="setColor('red')"></div>
+        <div class="color" style="background:blue" onclick="setColor('blue')"></div>
+        <div class="color" style="background:green" onclick="setColor('green')"></div>
+        <div class="color" style="background:yellow" onclick="setColor('yellow')"></div>
+        <div class="color" style="background:orange" onclick="setColor('orange')"></div>
+        <div class="color" style="background:purple" onclick="setColor('purple')"></div>
+        <div class="color" style="background:brown" onclick="setColor('brown')"></div>
+        <div class="color" style="background:gray" onclick="setColor('gray')"></div>
+        <div class="color" style="background:white; border:1px solid black" onclick="setColor('white')"></div>
+    </div>
+    <div id="brushPanel">
+        <div class="brush" onclick="setBrushSize(2)">Tenká</div>
+        <div class="brush" onclick="setBrushSize(5)">Střední</div>
+        <div class="brush" onclick="setBrushSize(10)">Silná</div>
+        <div class="brush" onclick="setBrushSize(20)">Extra</div>
+    </div>
+    <div id="toolbar">
+        <div class="toolbarPolozka">
+            <label for="upload" class="file-btn">Vybrat obrázek</label>
+            <button onclick="toggleIcons()" class="file-btn"></button>
+        </div>
+        <div class="toolbarPolozka">
+            <img src="icons/draw.svg" onclick="enableDraw()">
+            <img src="icons/cursor.svg" onclick="cursorMode()">
+            <img src="icons/palette.svg" onclick="toggleColors()">
+            <img src="icons/brushSize.svg" onclick="toggleBrushSize()">
+        </div>
+        <div class="toolbarPolozka">
+            <img src="icons/delete.svg" class="tool-click" onclick="clearCanvas()">
+            <img src="icons/undo.svg" class="tool-click" onclick="undo()">
+            <img src="icons/redo.svg" class="tool-click" onclick="redo()">
+            <img src="icons/save.svg" class="tool-click" onclick="saveAndClose()">
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MAPA DIV ======================== -->
+<div id="mapModal">
+    <div id="map"></div>
+    <div id="mapFooter">
+        <button onclick="closeMap()">Zavřít</button>
+    </div>
+</div>
+
+<!-- ===================== PODPISY DIV ===================== -->
+
+<div id="signatureModal" class="modal">
+        <h3>Podpis</h3>
+        <div style="width:400px; height:200px; background-color:white;"><canvas id="signatureCanvas" width="400" height="200" style="border:1px solid #000;"></canvas></div>
+        <div style="display:flex; justify-content:space-between; gap:10px; margin-top:10px;">
+            <button onclick="clearSignature()">Vymazat</button>
+            <button onclick="saveSignature()">Uložit</button>
+        </div>
+</div>
+
+<!-- ===================== OOPP DIV ===================== -->
+
+<div id="ooppModal" class="modal">
+        <h3 class="opatreniTitle">Vyber OOPP</h3>
+        <div id="ooppGrid"></div>
+        <button type="button" onclick="saveOopp()">Uložit</button>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/risks.js"></script>
+<script src="js/signatures.js"></script>
+<script src="js/canvas-editor.js"></script>
+<script src="js/map.js"></script>
+<script src="js/oopp.js"></script>
+</body>
+</html>

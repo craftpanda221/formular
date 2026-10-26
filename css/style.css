@@ -1,0 +1,1353 @@
+/* ===========================================================
+   FORMULÁŘ PRO PLÁNOVÁNÍ PRACÍ VE VÝŠKÁCH — styly
+   Černá + oranžová/žlutá (akcent #da532c je z Polygon Singing Rock).
+   Responzivní: > 900 px = tabulka, ≤ 900 px = přehledné karty.
+   Mění se jen CSS, HTML a JS zůstávají beze změny.
+   =========================================================== */
+
+:root {
+  /* černá / šedá škála */
+  --black: #0b0d10;
+  --ink-900: #111418;
+  --ink-800: #1a1f26;
+  --ink-700: #262d36;
+  --ink-600: #3a4350;
+  --ink-500: #5d6775;
+  --ink-400: #8a93a0;
+  --ink-300: #c8cdd5;
+  --ink-200: #e2e5ea;
+  --ink-100: #f0f2f5;
+  --paper: #f3f4f6;
+  --white: #ffffff;
+
+  /* akcenty */
+  --orange: #f97316;
+  --orange-hover: #ff8a3d;
+  --orange-deep: #da532c;
+  --orange-soft: #fff1e6;
+  --yellow: #facc15;
+
+  /* traumatologický plán */
+  --red: #dc2626;
+  --red-soft: #fecaca;
+
+  --line: var(--ink-200);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(11, 13, 16, 0.1);
+  --shadow-lg: 0 18px 50px rgba(11, 13, 16, 0.12);
+  --transition: 0.18s ease;
+
+  /* systémový font — žádné stahování, funguje i offline */
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--paper);
+  color: var(--ink-800);
+  line-height: 1.4;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ===========================================================
+   HLAVIČKA STRÁNKY
+   =========================================================== */
+
+.hero {
+  position: relative;
+  background:
+    radial-gradient(560px 240px at 90% -20%, rgba(249, 115, 22, 0.38), transparent 70%),
+    radial-gradient(420px 220px at 6% 130%, rgba(250, 204, 21, 0.14), transparent 70%),
+    var(--black);
+  padding: 48px 20px 44px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+/* výstražný pruh jako u bezpečnostního značení */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--orange) 0 14px,
+    var(--black) 14px 28px
+  );
+}
+
+.hero h1 {
+  font-size: clamp(25px, 4.2vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--white);
+}
+
+.hero h1::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 5px;
+  margin: 18px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--orange), var(--yellow));
+}
+
+.podtitulek {
+  max-width: 760px;
+  margin: 18px auto 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+/* ===========================================================
+   HLAVNÍ TABULKA
+   =========================================================== */
+
+.hlTabulka {
+  width: min(1180px, calc(100% - 32px));
+  table-layout: fixed;
+  margin: 0 auto 24px;
+  background: var(--white);
+  border: 0;
+  border-collapse: collapse;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.hlTabulka td {
+  padding: 10px 12px;
+  vertical-align: middle;
+  border: 1px solid var(--line);
+}
+
+/* nadpis sekce: černý pruh s oranžovým proužkem vlevo */
+.hlTabulka td.nadpis_Sekce {
+  background: var(--black);
+  color: var(--white);
+  text-align: left;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  padding: 14px 18px;
+  border: 0;
+  box-shadow: inset 6px 0 0 var(--orange);
+}
+
+.popisek {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink-600);
+  background: #f8f9fb;
+}
+
+/* ===========================================================
+   POLE FORMULÁŘE
+   =========================================================== */
+
+input,
+textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--ink-300);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink-900);
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+textarea {
+  line-height: 1.45;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-400);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  flex: none;
+  accent-color: var(--orange);
+  cursor: pointer;
+}
+
+/* ===========================================================
+   TLAČÍTKA
+   =========================================================== */
+
+button {
+  min-height: 40px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--orange);
+  color: var(--black);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition),
+    transform var(--transition), box-shadow var(--transition);
+}
+
+button:hover {
+  background: var(--orange-hover);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button:focus-visible,
+.cell-focus:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* Export / Import pod formulářem */
+#imExButtons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 16px 56px;
+}
+
+#imExButtons button {
+  min-width: 130px;
+  padding: 12px 22px;
+  font-size: 15px;
+  box-shadow: var(--shadow-sm);
+}
+
+#imExButtons button:last-child {
+  background: var(--black);
+  color: var(--white);
+}
+
+#imExButtons button:last-child:hover {
+  background: var(--orange);
+  color: var(--black);
+}
+
+/* ===========================================================
+   POLE: SOUŘADNICE, KOMUNIKACE
+   =========================================================== */
+
+#mapCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#mapCell img {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  object-fit: contain;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: transform var(--transition);
+}
+
+#mapCell img:hover {
+  transform: scale(1.12);
+}
+
+.komunikaceFlex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.komunikaceItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ===========================================================
+   4. ČLENOVÉ PRACOVNÍ SKUPINY (vnořená tabulka)
+   =========================================================== */
+
+.hlTabulka td.vnorenaBunka {
+  padding: 0;
+  border: 0;
+}
+
+.clenoveTabulka {
+  width: 100%;
+  table-layout: fixed;
+  border: 0;
+  border-collapse: collapse;
+}
+
+.clenoveTabulka td {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+/* vnější okraje dělá hlavní tabulka */
+.clenoveTabulka tr > td:first-child { border-left: 0; }
+.clenoveTabulka tr > td:last-child { border-right: 0; }
+.clenoveTabulka > tbody:first-of-type > tr:first-child > td { border-top: 0; }
+
+/* ===========================================================
+   OOPP (buňka člena + piktogramy)
+   =========================================================== */
+
+.ooppCell {
+  min-width: 0;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.ooppCell:hover,
+.ooppCell:focus-visible {
+  background: var(--orange-soft);
+  outline: none;
+}
+
+.ooppPlaceholder {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-400);
+}
+
+.ooppIcons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 3px;
+}
+
+.ooppIcons img {
+  flex: 0 1 40px;        /* chtěná velikost 40 px, při nedostatku místa se zmenší */
+  min-width: 0;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* OOPP propsané v tabulce podpisů */
+.podpisOopp .ooppIcons img {
+  height: 40px;
+}
+
+/* ===========================================================
+   FOTO / ZNÁZORNĚNÍ SITUACE
+   =========================================================== */
+
+#fotoCell {
+  text-align: center;
+  cursor: pointer;
+  color: var(--ink-500);
+  font-weight: 600;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 12px, rgba(249, 115, 22, 0.05) 12px 24px);
+  transition: background-color var(--transition);
+}
+
+#fotoCell:hover {
+  background-color: var(--orange-soft);
+}
+
+#fotoCell img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* ===========================================================
+   7. RIZIKA A OPATŘENÍ (tabulka)
+   =========================================================== */
+
+.rizikaNadpisDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.buttonRizika {
+  min-height: 34px;
+  padding: 6px 14px;
+  font-size: 13px;
+  background: var(--ink-800);
+  color: var(--white);
+}
+
+.buttonRizika:hover {
+  background: var(--orange);
+  color: var(--black);
+}
+
+#rizikaTable > tr > td:first-child {
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+/* ===========================================================
+   8. ZÁCHRANNÝ PLÁN (červená)
+   =========================================================== */
+
+#lokalizace {
+  background-color: var(--red-soft);
+  box-shadow: inset 0 -5px 0 var(--red);
+  padding-bottom: 14px;
+  font-size: 15px;
+  color: var(--ink-900);
+  border-bottom-style: hidden;
+}
+
+#lokalizace strong {
+  color: var(--red);
+}
+
+/* buňka kolem textarey tvoří sytě červený rámeček */
+#tdTextarea {
+  background-color: var(--red);
+  padding: 12px;
+}
+
+#id_traumatologicky_plan {
+  background-color: var(--red-soft);
+  border-color: var(--red-soft);
+  color: var(--ink-900);
+}
+
+#id_traumatologicky_plan:focus {
+  border-color: var(--white);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
+}
+
+/* vybavení pro první pomoc */
+#vybaveniFlex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+.vybaveniItem {
+  flex: 1 1 calc(50% - 8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 2px solid var(--ink-300);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.vybaveniItem:has(input:checked) {
+  border-color: var(--orange);
+  background: var(--orange-soft);
+}
+
+.vybaveniItem input {
+  flex: none;
+}
+
+.popisekPrvniPomoc {
+  flex: 1;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink-700);
+}
+
+/* ===========================================================
+   11. PODPISY
+   =========================================================== */
+
+#podpisPopis {
+  font-size: 13px;
+  color: var(--ink-600);
+  text-align: center;
+  border-bottom-style: hidden;
+}
+
+#podpisTable td.podpis {
+  font-weight: 600;
+  color: var(--ink-500);
+  transition: background var(--transition);
+}
+
+#podpisTable td.podpis:hover {
+  background: var(--orange-soft);
+}
+
+#podpisTable td.podpis img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* ===========================================================
+   MODALY (rizika, opatření, OOPP, podpis)
+   =========================================================== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(11, 13, 16, 0.95);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+}
+
+.modal h3 {
+  color: var(--white);
+}
+
+.opatreniTitle {
+  padding: 6px 10px;
+  color: var(--white);
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 10px;
+  width: min(1100px, 100%);
+  max-height: calc(100vh - 170px);
+  max-height: calc(100dvh - 170px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 2px;
+}
+
+.riziko-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 14px;
+  background: var(--ink-800);
+  color: var(--white);
+  border-left: 4px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.riziko-item:hover {
+  background: var(--ink-600);
+}
+
+.riziko-item:has(.checkbox:checked) {
+  border-left-color: var(--orange);
+  background: var(--ink-700);
+}
+
+.checkbox {
+  flex: none;
+  margin-left: 10px;
+}
+
+/* blok jednoho rizika v modalu opatření */
+.opatreni-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+}
+
+.opatreni-wrapper .opatreniTitle {
+  padding: 2px 4px 6px;
+  color: var(--yellow);
+  font-size: 16px;
+  text-align: left;
+}
+
+#customOpatreniContainer,
+#customRiskContainer {
+  grid-column: 1 / -1;
+}
+
+#customOpatreniRizikaChecklist {
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+#customRiskContainer {
+  padding: 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+}
+
+#pridatBtn {
+  margin: 10px;
+}
+
+#modal-footer {
+  min-width: 170px;
+  margin-top: 4px;
+}
+
+/* modal OOPP */
+#ooppGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: min(92vw, 440px);
+  max-height: 70vh;
+  max-height: 70dvh;
+  overflow: auto;
+  padding: 4px;
+}
+
+.ooppItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  padding: 8px;
+  background: var(--ink-100);
+  border: 3px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition), box-shadow var(--transition),
+    background var(--transition), border-color var(--transition);
+}
+
+.ooppItem:hover {
+  background: var(--white);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.ooppItem:active {
+  transform: scale(0.97);
+}
+
+.ooppItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* záložní zvýraznění, kdyby checked obrázek nešel načíst */
+.ooppItem.checked-fallback {
+  border-color: var(--yellow);
+}
+
+/* modal podpisu */
+#signatureModal > div:first-of-type {
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* plátno pro kreslení nesmí při tahu prstem posouvat stránku */
+#signatureModal .canvas-container,
+#signatureModal canvas {
+  touch-action: none;
+}
+
+#signatureCanvas {
+  display: block;
+  background: var(--white);
+}
+
+#signatureModal button:first-of-type {
+  background: var(--ink-700);
+  color: var(--white);
+}
+
+#signatureModal button:first-of-type:hover {
+  background: var(--ink-600);
+}
+
+/* ===========================================================
+   EDITOR OBRÁZKU
+   =========================================================== */
+
+#editorModal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--white);
+  z-index: 9999;
+}
+
+#editorModal > * {
+  max-width: 100%;
+}
+
+#toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 10px 20px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  background: var(--black);
+}
+
+.toolbarPolozka {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolbarPolozka img {
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.toolbarPolozka img:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.toolbarPolozka img.active {
+  background: var(--orange);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
+}
+
+.toolbarPolozka img.clicked {
+  transform: scale(0.9);
+  filter: brightness(0.7);
+}
+
+.file-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  padding: 10px 14px;
+  background: var(--orange);
+  color: var(--black);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.file-btn:hover {
+  background: var(--orange-hover);
+  transform: translateY(-1px);
+}
+
+/* druhé tlačítko je v HTML prázdné → ukáže se popisek */
+button.file-btn:empty::before {
+  content: "Ikony";
+}
+
+#iconPanel,
+#colorPanel,
+#brushPanel {
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--ink-700);
+}
+
+.nadpisIconMiniBox {
+  width: 100%;
+  margin-bottom: 4px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-100);
+}
+
+#iconPanel img {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#iconPanel img:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.color {
+  width: 36px;
+  height: 36px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.color:hover {
+  transform: scale(1.1);
+  border-color: var(--white);
+}
+
+.brush {
+  padding: 8px 12px;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.brush:hover {
+  background: var(--orange-soft);
+}
+
+/* ===========================================================
+   MAPA
+   =========================================================== */
+
+#mapModal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--white);
+  z-index: 9999;
+}
+
+#map {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+#mapFooter {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  background: var(--white);
+  border-top: 1px solid var(--line);
+}
+
+/* ===========================================================
+   RESPONZIVITA
+   =========================================================== */
+
+/* ---- tablet a mobil: tabulka se mění na přehledné karty ---- */
+@media (max-width: 900px) {
+
+  .hero {
+    padding: 36px 16px 34px;
+    margin-bottom: 20px;
+  }
+
+  .hlTabulka {
+    display: block;
+    width: calc(100% - 24px);
+    margin-bottom: 16px;
+  }
+
+  .hlTabulka > colgroup,
+  .clenoveTabulka > colgroup {
+    display: none;
+  }
+
+  .hlTabulka > tbody,
+  .hlTabulka > tbody > tr,
+  .hlTabulka > tbody > tr > td {
+    display: block;
+    width: auto;
+  }
+
+  .hlTabulka > tbody > tr > td {
+    border: 0;
+    padding: 10px 16px;
+  }
+
+  /* popisek = štítek nad polem */
+  .hlTabulka > tbody > tr > td.popisek {
+    padding: 12px 16px 0;
+    background: transparent;
+    font-size: 12.5px;
+  }
+
+  .hlTabulka > tbody > tr > td.nadpis_Sekce {
+    margin-top: 6px;
+    padding: 14px 16px;
+  }
+
+  /* --- zhotovitel / zadavatel: v HTML jsou dva sloupce vedle sebe,
+         na mobilu se seřadí tak, aby k sobě patřily skupiny --- */
+  .hlTabulka > tbody:first-of-type {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlTabulka > tbody:first-of-type > tr:nth-child(-n+3) {
+    display: contents;
+  }
+
+  .hlTabulka > tbody:first-of-type > tr:nth-child(1) > td:nth-child(1) { order: -10; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(2) > td:nth-child(1) { order: -9; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(2) > td:nth-child(2) { order: -8; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(3) > td:nth-child(1) { order: -7; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(3) > td:nth-child(2) { order: -6; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(1) > td:nth-child(2) { order: -5; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(2) > td:nth-child(3) { order: -4; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(2) > td:nth-child(4) { order: -3; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(3) > td:nth-child(3) { order: -2; }
+  .hlTabulka > tbody:first-of-type > tr:nth-child(3) > td:nth-child(4) { order: -1; }
+
+  /* --- 6. plán práce: štítky nad textareou a fotkou --- */
+  .hlTabulka > tbody > tr > td.popisek[colspan="2"] {
+    display: none;
+  }
+
+  .hlTabulka > tbody > tr > td[colspan="2"]:has(> #id_postup_prace)::before,
+  .hlTabulka > tbody > tr > td#fotoCell::before {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-600);
+    text-align: left;
+  }
+
+  .hlTabulka > tbody > tr > td[colspan="2"]:has(> #id_postup_prace)::before {
+    content: "Postup prací v krocích:";
+  }
+
+  .hlTabulka > tbody > tr > td#fotoCell::before {
+    content: "Znázornění situace:";
+  }
+
+  #fotoCell {
+    margin: 0 16px 12px;
+    width: auto !important;
+    padding: 18px 12px !important;
+    border: 2px dashed var(--ink-300) !important;
+    border-radius: var(--radius-md);
+  }
+
+  /* --- 4. členové: každý člen = karta --- */
+  .hlTabulka > tbody > tr > td.vnorenaBunka {
+    padding: 0;
+  }
+
+  .clenoveTabulka,
+  .clenoveTabulka > tbody,
+  .clenoveTabulka > tbody > tr,
+  .clenoveTabulka > tbody > tr > td {
+    display: block;
+    width: auto;
+  }
+
+  .clenoveTabulka > tbody:first-of-type > tr:first-child {
+    display: none;                         /* hlavička sloupců — popisky jsou u polí */
+  }
+
+  .clenoveTabulka > tbody > tr {
+    margin: 0 12px 10px;
+    padding: 10px 12px 12px;
+    background: #fafbfc;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .clenoveTabulka > tbody > tr:first-of-type {
+    margin-top: 0;
+  }
+
+  .clenoveTabulka > tbody > tr > td {
+    padding: 4px 0;
+    border: 0;
+  }
+
+  .clenoveTabulka > tbody > tr > td:first-child {
+    padding-bottom: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink-900);
+    background: transparent;
+  }
+
+  .clenoveTabulka > tbody > tr > td:first-child:empty {
+    display: none;
+  }
+
+  .clenoveTabulka > tbody:last-of-type > tr > td:first-child:empty {
+    display: none;
+  }
+
+  .clenoveTabulka > tbody > tr > td:nth-child(n+2)::before {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-500);
+  }
+
+  .clenoveTabulka > tbody > tr > td:nth-child(2)::before { content: "Jméno a příjmení"; }
+  .clenoveTabulka > tbody > tr > td:nth-child(3)::before { content: "Činnost"; }
+  .clenoveTabulka > tbody > tr > td:nth-child(4)::before { content: "Kvalifikace"; }
+  .clenoveTabulka > tbody > tr > td:nth-child(5)::before { content: "OOPP"; }
+
+  .clenoveTabulka .ooppCell {
+    margin-top: 4px;
+    min-height: 56px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px dashed var(--ink-300);
+    border-radius: var(--radius-md);
+    background: var(--white);
+  }
+
+  .clenoveTabulka .ooppCell::before {
+    align-self: flex-start;
+  }
+
+  /* --- 7. rizika --- */
+  .hlTabulka > tbody > tr > td:has(> .rizikaNadpisDiv) {
+    padding: 12px 16px 0;
+  }
+
+  #rizikaTable > tr {
+    margin: 8px 12px 0;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--orange);
+    border-radius: var(--radius-md);
+    background: #fafbfc;
+    overflow: hidden;
+  }
+
+  #rizikaTable > tr > td {
+    padding: 10px 14px;
+  }
+
+  #rizikaTable > tr > td:first-child {
+    padding-bottom: 2px;
+    font-size: 15px;
+  }
+
+  #rizikaTable > tr > td:last-child {
+    padding-top: 2px;
+    padding-left: 14px !important;
+    font-size: 13.5px;
+    color: var(--ink-600);
+  }
+
+  /* --- 8. záchranný plán --- */
+  #lokalizace {
+    padding: 14px 16px;
+  }
+
+  #tdTextarea {
+    padding: 10px !important;
+  }
+
+  #id_traumatologicky_plan {
+    min-height: 380px;
+  }
+
+  .vybaveniItem {
+    flex-basis: 100%;
+  }
+
+  #vybaveniFlex {
+    padding: 4px 0;
+  }
+
+  /* --- 11. podpisy: každý podepisující = karta --- */
+  .hlTabulka > tbody > tr:has(> td.popisek:nth-child(4)) {
+    display: none;                          /* hlavička sloupců podpisů */
+  }
+
+  #podpisPopis {
+    padding: 12px 16px 4px;
+  }
+
+  #podpisTable > tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+    margin: 8px 12px 0;
+    padding: 12px 14px;
+    background: #fafbfc;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  #podpisTable > tr > td {
+    padding: 0;
+    min-width: 0;
+  }
+
+  #podpisTable > tr > td:nth-child(1) {
+    grid-column: 1 / -1;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-900);
+  }
+
+  #podpisTable > tr > td:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+
+  #podpisTable > tr > td:nth-child(2):empty {
+    display: none;
+  }
+
+  #podpisTable > tr > td:nth-child(3) {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    color: var(--ink-600);
+  }
+
+  #podpisTable > tr > td:nth-child(3)::before {
+    content: "Datum: ";
+    font-weight: 600;
+    color: var(--ink-500);
+  }
+
+  #podpisTable > tr > td:nth-child(4) {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 72px;
+    padding: 6px;
+    border: 2px dashed var(--ink-300);
+    border-radius: var(--radius-md);
+    background: var(--white);
+  }
+
+  .hlTabulka > tbody:last-of-type {
+    padding-bottom: 16px;
+  }
+
+  /* --- Export / Import jako lišta u spodního okraje --- */
+  #imExButtons {
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    padding: 10px 12px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    background: rgba(11, 13, 16, 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-top: 3px solid var(--orange);
+  }
+
+  #imExButtons button {
+    flex: 1;
+    max-width: 220px;
+    min-height: 46px;
+    box-shadow: none;
+  }
+}
+
+/* ---- mobil ---- */
+@media (max-width: 600px) {
+
+  /* 16 px = iOS při zaostření pole nepřibližuje stránku */
+  input,
+  textarea {
+    font-size: 16px;
+    padding: 11px 12px;
+  }
+
+  input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+  }
+
+  button {
+    min-height: 44px;
+  }
+
+  .hero h1::after {
+    margin-top: 14px;
+  }
+
+  .podtitulek {
+    font-size: 14px;
+  }
+
+  .hlTabulka {
+    width: calc(100% - 16px);
+    border-radius: var(--radius-md);
+  }
+
+  .komunikaceFlex {
+    gap: 12px 20px;
+  }
+
+  .komunikaceItem {
+    font-size: 15px;
+    min-height: 32px;
+  }
+
+  .rizikaNadpisDiv {
+    flex-wrap: wrap;
+  }
+
+  /* modaly */
+  .modal {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .modal-body {
+    max-height: calc(100vh - 150px);
+    max-height: calc(100dvh - 150px);
+  }
+
+  .opatreniTitle {
+    font-size: 18px;
+  }
+
+  #modal-footer {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  #ooppGrid {
+    gap: 10px;
+    width: 94vw;
+  }
+
+  #signatureModal > div:last-of-type {
+    width: min(100%, 360px);
+  }
+
+  #signatureModal button {
+    flex: 1;
+  }
+
+  /* editor */
+  #toolbar {
+    padding: 8px 10px;
+    gap: 6px 10px;
+  }
+
+  .toolbarPolozka {
+    gap: 4px;
+  }
+
+  .toolbarPolozka img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .file-btn {
+    width: auto;
+    min-width: 92px;
+    padding: 8px 10px;
+  }
+
+  #mapFooter button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .ooppIcons img {
+    height: 34px;
+  }
+
+  #ooppGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Plátno podpisu má v HTML pevných 400 × 200 px. Na užších telefonech se
+   proto jen vizuálně zmenší (Fabric přepočítává polohu prstu sám). */
+@media (max-width: 440px) {
+  #signatureModal > div:first-of-type {
+    transform: scale(0.9);
+    margin: -10px 0;
+  }
+}
+
+@media (max-width: 400px) {
+  #signatureModal > div:first-of-type {
+    transform: scale(0.84);
+    margin: -16px 0;
+  }
+}
+
+@media (max-width: 370px) {
+  #signatureModal > div:first-of-type {
+    transform: scale(0.76);
+    margin: -24px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
