@@ -125,6 +125,22 @@ img {
 }
 
 /* ===========================================================
+   REKLAMY
+   =========================================================== */
+
+#reklamniPlochaIn{
+  height: 0px;
+  background-image: url("../reklama/reklama1.png");
+  background-attachment: fixed; /* Zafixuje obrázek vůči oknu prohlížeče */
+  background-position: center;  /* Zarovná obrázek na střed obrazovky */
+  background-size: cover;       /* Roztáhne obrázek tak, aby pokryl celou plochu */
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ===========================================================
    HLAVNÍ TABULKA
    =========================================================== */
 
@@ -1207,6 +1223,11 @@ button.file-btn:empty::before {
     min-height: 46px;
     box-shadow: none;
   }
+
+  #reklamniPlochaIn{
+  height: 80vh;
+  }
+
 }
 
 /* ---- mobil ---- */
