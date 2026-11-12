@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
 <header class="hero">
     <h1>Formulář pro plánování prací ve výškách</h1>
     <p class="podtitulek">Obsah formuláře je v souladu s ustanovením v §&nbsp;102 a ustanovení o koordinaci v §&nbsp;103 zákona č.&nbsp;262/2006 Sb.</p>
@@ -61,11 +60,12 @@
                 <div class="clenoveScroll">
                 <table class="clenoveTabulka" border="1">
                     <colgroup>
-                        <col style="width:14%">
-                        <col style="width:20%">
-                        <col style="width:20%">
+                        <col style="width:12%">
+                        <col style="width:18%">
+                        <col style="width:18%">
+                        <col style="width:19%">
                         <col style="width:22%">
-                        <col style="width:24%">
+                        <col style="width:11%">
                     </colgroup>
                     <tbody>
                         <tr>
@@ -74,6 +74,7 @@
                             <td class="popisek">Činnost:</td>
                             <td class="popisek">Kvalifikace:</td>
                             <td class="popisek">OOPP:</td>
+                            <td class="popisek">Zdravotní způsobilost:</td>
                         </tr>
                         <tr>
                             <td class="popisek">Vedoucí pracovník:</td>
@@ -81,6 +82,7 @@
                             <td><input type="text" name="vedouci_cinnost" id="id_vedouci_cinnost"></td>
                             <td><input type="text" name="vedouci_kvalifikace" id="id_vedouci_kvalifikace"></td>
                             <td class="ooppCell" id="vedouciOopp"></td>
+                            <td class="zdravCell"><input type="checkbox" name="vedouci_zdravotni_zpusobilost" aria-label="Zdravotní způsobilost"></td>
                         </tr>
                         <tr>
                             <td class="popisek">Pracovník pověřený koordinací mezi subjekty:</td>
@@ -88,6 +90,7 @@
                             <td><input type="text" name="koordinator_cinnost" id="id_koordinator_cinnost"></td>
                             <td><input type="text" name="koordinator_kvalifikace" id="id_koordinator_kvalifikace"></td>
                             <td class="ooppCell" id="koordinatorOopp"></td>
+                            <td class="zdravCell"><input type="checkbox" name="koordinator_zdravotni_zpusobilost" aria-label="Zdravotní způsobilost"></td>
                         </tr>
                     </tbody>
                     <tbody id="pracovniciTable"></tbody>

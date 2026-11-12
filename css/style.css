@@ -354,6 +354,15 @@ button:focus-visible,
    OOPP (buňka člena + piktogramy)
    =========================================================== */
 
+.zdravCell {
+  text-align: center;
+}
+
+.zdravCell input[type="checkbox"] {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .ooppCell {
   min-width: 0;
   cursor: pointer;
@@ -929,6 +938,10 @@ button.file-btn:empty::before {
     display: none;
   }
 
+  .clenoveTabulka tr > td:first-child { border-left: 0; }
+  .clenoveTabulka tr > td:last-child { border-right: 0; }
+  .clenoveTabulka > tbody:first-of-type > tr:first-child > td { border-top: 0; }
+
   .hlTabulka > tbody,
   .hlTabulka > tbody > tr,
   .hlTabulka > tbody > tr > td {
@@ -1068,6 +1081,7 @@ button.file-btn:empty::before {
   .clenoveTabulka > tbody > tr > td:nth-child(3)::before { content: "Činnost"; }
   .clenoveTabulka > tbody > tr > td:nth-child(4)::before { content: "Kvalifikace"; }
   .clenoveTabulka > tbody > tr > td:nth-child(5)::before { content: "OOPP"; }
+  .clenoveTabulka > tbody > tr > td:nth-child(6)::before { content: "Zdravotní způsobilost"; }
 
   .clenoveTabulka .ooppCell {
     margin-top: 4px;
@@ -1084,6 +1098,22 @@ button.file-btn:empty::before {
   .clenoveTabulka .ooppCell::before {
     align-self: flex-start;
   }
+
+     .clenoveTabulka > tbody > tr > td.zdravCell {
+     display: flex;
+     flex-direction: row-reverse;
+     justify-content: flex-end;
+     align-items: center;
+     gap: 10px;
+     text-align: left;
+     padding-top: 8px;
+   }
+
+   .clenoveTabulka > tbody > tr > td.zdravCell::before {
+     margin: 0;
+     font-size: 13px;
+     color: var(--ink-700);
+   }
 
   /* --- 7. rizika --- */
   .hlTabulka > tbody > tr > td:has(> .rizikaNadpisDiv) {
