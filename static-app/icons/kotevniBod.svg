@@ -1,0 +1,23 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- zelené pozadí -->
+  <circle cx="50" cy="50" r="48" fill="#8BC34A"></circle>
+
+  <!-- kotva -->
+  <g stroke="black" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- kruh nahoře -->
+    <circle cx="50" cy="22" r="10"></circle>
+
+    <!-- svislá tyč -->
+    <line x1="50" y1="32" x2="50" y2="80"></line>
+
+    <!-- příčná tyč -->
+    <line x1="40" y1="50" x2="60" y2="50"></line>
+
+    <!-- spodní oblouk (jednoduchý, jeden) -->
+    <path d="M25 70 Q50 90 75 70"></path>
+
+  </g>
+
+</svg>
