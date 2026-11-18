@@ -1402,3 +1402,132 @@ button.file-btn:empty::before {
     transition: none !important;
   }
 }
+
+/* ===========================================================
+   FOTOAPARÁT (živý náhled + galerie)
+   =========================================================== */
+
+#cameraModal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  background: #000;
+  z-index: 10000;                 /* nad editorem obrázku */
+}
+
+#cameraVideo {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+#cameraVideo.mirror {
+  transform: scaleX(-1);          /* přední kamera jako zrcadlo */
+}
+
+/* hláška, když kamera nejde spustit */
+#cameraMessageBox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+#cameraMessage {
+  max-width: 420px;
+  color: var(--white);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#cameraBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px;
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* kulatá tlačítka: galerie, přepnutí kamery, zavřít */
+#cameraGallery,
+#cameraSwitch,
+#cameraClose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 54px;
+  height: 54px;
+  min-height: 0;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--white);
+  box-shadow: none;
+}
+
+#cameraSwitch {
+  border-radius: 50%;
+}
+
+#cameraGallery:hover,
+#cameraSwitch:hover,
+#cameraClose:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: none;
+}
+
+#cameraClose {
+  position: absolute;
+  top: 14px;
+  top: max(14px, env(safe-area-inset-top));
+  left: 14px;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* spoušť: velký bílý kruh s kroužkem kolem */
+#cameraShutter {
+  width: 76px;
+  height: 76px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.45);
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+#cameraShutter:hover {
+  background: var(--white);
+  transform: none;
+}
+
+#cameraShutter:active {
+  transform: scale(0.9);
+}
+
+#cameraShutter:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+#cameraNativeBtn[hidden],
+#cameraMessage[hidden] {
+  display: none;
+}

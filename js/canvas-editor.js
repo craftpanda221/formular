@@ -50,13 +50,16 @@ async function openEditor() {
 
     cursorMode();
 
-    // 👇 pokud ještě není obrázek → otevřít dialog
     if (!canvas.backgroundImage) {
-        fileDialogOpened = true;
+        if (typeof openCamera === 'function') {
+            openCamera();
+        } else {
+            fileDialogOpened = true;
 
-        setTimeout(() => {
-            document.getElementById('upload').click();
-        }, 100);
+            setTimeout(() => {
+                document.getElementById('upload').click();
+            }, 100);
+        }
     }
 }
 
